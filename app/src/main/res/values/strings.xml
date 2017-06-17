@@ -9,4 +9,8 @@
     <string name="wechatnews">微精选</string>
     <string name="share">SHARE</string>
     <string name="like">LIKE</string>
+    <string name="todayread">今日浏览（次）</string>
+    <string name="allread">总浏览（次）</string>
+    <string name="allsee">次数全览</string>
+    <string name="choosesee">按类型</string>
 </resources>

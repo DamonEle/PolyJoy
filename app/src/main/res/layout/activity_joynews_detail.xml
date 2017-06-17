@@ -20,8 +20,8 @@
             android:fitsSystemWindows="true"
             android:minHeight="?attr/actionBarSize"
             app:contentScrim="@color/primaryDark"
-            app:expandedTitleMarginEnd="@dimen/padding_margin_size_small"
-            app:expandedTitleMarginStart="@dimen/padding_margin_size_small"
+            app:expandedTitleMarginEnd="@dimen/padding_margin_size_8dp"
+            app:expandedTitleMarginStart="@dimen/padding_margin_size_8dp"
             app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:statusBarScrim="@color/primary">

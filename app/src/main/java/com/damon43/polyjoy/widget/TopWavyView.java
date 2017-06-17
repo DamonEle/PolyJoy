@@ -51,9 +51,7 @@ public class TopWavyView extends View {
     private float wavyEndY2;
     private Paint mPaint;
     private Context mContext;
-    private static final float REFRESH_SIZE = 2;
-    private static final float REFRESH_SIZE_OF = 50;
-    private static final long REFRESH_TIME = 50;
+    private float WAVY_HEIGHT = 135;
 
     public TopWavyView(Context context) {
         this(context, null);
@@ -125,12 +123,12 @@ public class TopWavyView extends View {
     }
 
     private void resetControlPoint() {
-        wavyStartY = height*3 / 4f;
+        wavyStartY = height*7 / 8f;
         wavyStartX = 0;
         wavyConX1 = width / 8f;
-        wavyConY1 = wavyStartY - wavyConX1 + 100;
+        wavyConY1 = wavyStartY - wavyConX1 + WAVY_HEIGHT;
         wavyConX2 = width * 3 / 8f;
-        wavyConY2 = wavyConX1 + wavyStartY - 100;
+        wavyConY2 = wavyConX1 + wavyStartY - WAVY_HEIGHT;
         wavyConX3 = width * 5 / 8f;
         wavyConY3 = wavyConY1;
         wavyConX4 = width * 7 / 8f;

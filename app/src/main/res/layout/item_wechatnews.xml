@@ -7,10 +7,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
-        android:elevation="@dimen/padding_margin_size_small"
+        android:elevation="@dimen/padding_margin_size_8dp"
         android:foreground="?attr/selectableItemBackground"
         app:cardBackgroundColor="@color/cardview_light_background"
-        app:cardCornerRadius="@dimen/padding_margin_size_small"
+        app:cardCornerRadius="@dimen/padding_margin_size_8dp"
         app:cardUseCompatPadding="true">
 
         <LinearLayout
@@ -28,25 +28,25 @@
                 android:id="@+id/tv_author"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/padding_margin_size_normal"
-                android:layout_marginTop="@dimen/padding_margin_size_small"
+                android:layout_marginLeft="@dimen/padding_margin_size_15dp"
+                android:layout_marginTop="@dimen/padding_margin_size_8dp"
                 android:textColor="@color/black"
-                android:textSize="@dimen/font_large"/>
+                android:textSize="@dimen/font_large_25sp"/>
 
             <TextView
                 android:id="@+id/tv_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/padding_margin_size_more_small"
-                android:layout_marginLeft="@dimen/padding_margin_size_normal"
-                android:layout_marginTop="@dimen/padding_margin_size_more_small"
+                android:layout_marginBottom="@dimen/padding_margin_size_4dp"
+                android:layout_marginLeft="@dimen/padding_margin_size_15dp"
+                android:layout_marginTop="@dimen/padding_margin_size_4dp"
                 android:textColor="@color/black"
-                android:textSize="@dimen/font_small"/>
+                android:textSize="@dimen/font_small_14sp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/padding_margin_size_normal"
+                android:layout_marginLeft="@dimen/padding_margin_size_15dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -55,16 +55,16 @@
                     android:layout_height="wrap_content"
                     android:text="@string/share"
                     android:textColor="@color/accent"
-                    android:textSize="@dimen/font_large"/>
+                    android:textSize="@dimen/font_large_25sp"/>
 
                 <TextView
                     android:id="@+id/tv_like"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/padding_margin_size_big"
+                    android:layout_marginLeft="@dimen/padding_margin_size_20dp"
                     android:text="@string/like"
                     android:textColor="@color/accent"
-                    android:textSize="@dimen/font_large"/>
+                    android:textSize="@dimen/font_large_25sp"/>
             </LinearLayout>
         </LinearLayout>
 

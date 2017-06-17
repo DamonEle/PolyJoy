@@ -7,8 +7,10 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.damon43.common.commonutils.LogUtils;
 import com.damon43.polyjoy.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -22,6 +24,7 @@ public class JoysRecordView extends View {
     private static final float LITTLE_LINE_WIDTH = 1F;
     private static final float RECF_WIDTH = 40F;
     private static final float TEXT_WIDTH = 25f;
+    private static final float POINT_RADIUS = 5F;
     private static float BOTTOM_TEXT_MARGIN;
     private static float TEXT_HEIGHT_OFFECT = 20F;
     private static float TEXT_WIDTH_OFFECT = 50f;
@@ -47,9 +50,10 @@ public class JoysRecordView extends View {
     private int mKindsLineCount = 5;
 
     private String[] strs = new String[]{"社会", "美女", "科学", "头条", "体育"};
+    private String[] strs2 = new String[]{"11-3", "11-5", "11-6", "11-9", "11-20"};
     private float textwidth;
     private float DEFULT_TEXTWIDTH;
-    private boolean isAllSee = true;
+    private boolean isAllSee = false;
 
     public JoysRecordView(Context context) {
         this(context, null);
@@ -66,6 +70,15 @@ public class JoysRecordView extends View {
     }
 
     private void init() {
+        mConnectPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mConnectPaint.setColor(mContext.getResources().getColor(R.color.primary));
+        mConnectPaint.setStrokeWidth(LINE_WIDTH);
+        mPointPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPointPaint.setColor(mContext.getResources().getColor(R.color.primary));
+        mPointPaint.setStrokeWidth(POINT_RADIUS);
+        mPointPaint.setStrokeCap(Paint.Cap.ROUND);
+        mPointPaint.setStrokeJoin(Paint.Join.ROUND);
+        mPointPaint.setStyle(Paint.Style.FILL);
         mGrayLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mGrayLinePaint.setColor(mContext.getResources().getColor(R.color.gray2));
         mGrayLinePaint.setStrokeWidth(LINE_WIDTH);
@@ -120,17 +133,34 @@ public class JoysRecordView extends View {
         }
         //画种类纵坐标
         int lineWidth = (int) (mWidth - TEXT_WIDTH_OFFECT) / (mKindsLineCount + 1);
+        List<Float> connectPoints = new ArrayList<>();
         for (int i = 1; i <= mKindsLineCount; i++) {
             float x = (i * lineWidth) + TEXT_WIDTH_OFFECT;
-            //在view宽高值的x，y上绘画会绘制到view界面之外的地方 导致效果不可见，因为view的相对xy坐标是从0开始
-            canvas.drawLine(x, TEXT_HEIGHT_OFFECT / 2, x, bottomLineY, mGrayLinePaint2);
-            canvas.drawText(strs[i - 1], x - DEFULT_TEXTWIDTH / 2, bottomLineY + BOTTOM_TEXT_MARGIN + TEXT_HEIGHT_OFFECT * 3 / 4, mTextPaint);
+            String bottomXText = strs2[i - 1];
+            float bottomXTextWidth = mTextPaint.measureText(bottomXText);
+            canvas.drawText(bottomXText, x - bottomXTextWidth / 2, bottomLineY + BOTTOM_TEXT_MARGIN
+                    + TEXT_HEIGHT_OFFECT * 3 / 4, mTextPaint);
             if (isAllSee) {
-                canvas.drawLine(x, bottomLineY, x, yOffect * (i * 8 / (mCountLineCount * 10)), mRecfPaint);
+                //画柱状图
+//                canvas.drawLine(x, bottomLineY, x, yOffect * (i * 8 / (mCountLineCount * 10)), mRecfPaint);
+                canvas.drawLine(x, bottomLineY, x, yOffect / 2, mRecfPaint);
+            } else {
+                //画折线图的线
+                //在view宽高值的x，y上绘画会绘制到view界面之外的地方 导致效果不可见，因为view的相对xy坐标是从0开始
+                canvas.drawLine(x, TEXT_HEIGHT_OFFECT / 2, x, bottomLineY, mGrayLinePaint2);
+                //画点
+                float pointY = yOffect / 2 + i * 15;
+                canvas.drawCircle(x, pointY, POINT_RADIUS, mPointPaint);
+                connectPoints.add(x);
+                connectPoints.add(pointY);
             }
         }
+        //画折线
+        for (int i = 0; i < connectPoints.size() - 3; i++) {
+            if (i % 2 == 0)
+                canvas.drawLine(connectPoints.get(i), connectPoints.get(i + 1), connectPoints.get(i + 2),
+                        connectPoints.get(i + 3), mConnectPaint);
+        }
         canvas.drawLine(TEXT_WIDTH_OFFECT + TEXT_WIDTH_OFFECT / 3, bottomLineY, mWidth, bottomLineY, mGrayLinePaint);
-
-
     }
 }

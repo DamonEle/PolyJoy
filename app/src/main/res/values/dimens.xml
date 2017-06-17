@@ -8,15 +8,17 @@
 
 
     <!--font-->
-    <dimen name="font_normal">20sp</dimen>
-    <dimen name="font_small">14sp</dimen>
-    <dimen name="font_more_small">10sp</dimen>
-    <dimen name="font_large">25sp</dimen>
+    <dimen name="font_normal_20sp">20sp</dimen>
+    <dimen name="font_small_14sp">14sp</dimen>
+    <dimen name="font_more_small_10sp">10sp</dimen>
+    <dimen name="font_large_25sp">25sp</dimen>
+    <dimen name="font_large_40sp">40sp</dimen>
     <dimen name="progressbar_size_small">40dp</dimen>
-    <dimen name="padding_margin_size_small">8dp</dimen>
-    <dimen name="padding_margin_size_more_small">4dp</dimen>
-    <dimen name="padding_margin_size_normal">15dp</dimen>
-    <dimen name="padding_margin_size_big">20dp</dimen>
+    <dimen name="padding_margin_size_8dp">8dp</dimen>
+    <dimen name="padding_margin_size_4dp">4dp</dimen>
+    <dimen name="padding_margin_size_15dp">15dp</dimen>
+    <dimen name="padding_margin_size_20dp">20dp</dimen>
+    <dimen name="padding_margin_size_50dp">50dp</dimen>
     <dimen name="app_bar_size">170dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="item_img_height_big">190dp</dimen>

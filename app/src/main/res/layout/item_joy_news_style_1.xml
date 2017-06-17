@@ -17,11 +17,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@id/iv_img_1"
-        android:textSize="@dimen/font_more_small" />
+        android:textSize="@dimen/font_more_small_10sp" />
 
     <TextView
         android:id="@+id/tv_title"
-        android:textSize="@dimen/font_small"
+        android:textSize="@dimen/font_small_14sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/iv_img_1" />
@@ -32,5 +32,5 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:textSize="@dimen/font_more_small" />
+        android:textSize="@dimen/font_more_small_10sp" />
 </RelativeLayout>

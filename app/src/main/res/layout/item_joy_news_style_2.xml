@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/item_padding"
-        android:textSize="@dimen/font_small" />
+        android:textSize="@dimen/font_small_14sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,13 +48,13 @@
             android:id="@id/tv_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/font_more_small" />
+            android:textSize="@dimen/font_more_small_10sp" />
 
         <TextView
             android:id="@id/tv_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:textSize="@dimen/font_more_small" />
+            android:textSize="@dimen/font_more_small_10sp" />
     </RelativeLayout>
 </LinearLayout>
