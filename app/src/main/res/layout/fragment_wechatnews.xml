@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:paddingLeft="@dimen/padding_margin_size_small"
+              android:paddingRight="@dimen/padding_margin_size_small"
+              android:orientation="vertical">
+
+    <ProgressBar
+        android:id="@+id/pb_wait"
+        android:layout_width="@dimen/progressbar_size_normal"
+        android:layout_height="@dimen/progressbar_size_normal"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srl_news" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+    >
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_wechatnews"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/girlpicbgblack"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical">
+    <android.support.v7.widget.Toolbar android:layout_width="match_parent"
+                                       android:id="@+id/tb_girl"
+                                       app:navigationIcon="@drawable/ic_arrow_back"
+                                       app:title="@string/app_name"
+                                       app:titleTextColor="@color/white"
+                                       android:layout_height="?attr/actionBarSize">
+
+    </android.support.v7.widget.Toolbar>
+    <uk.co.senab.photoview.PhotoView
+        android:id="@+id/pv_girl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

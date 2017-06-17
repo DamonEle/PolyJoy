@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/item_time"
+        android:icon="@drawable/ic_time_selector"
+        android:title="@string/itemtime"/>
+    <item android:id="@+id/item_wechatnews"
+        android:icon="@drawable/ic_wechat_news_selector"
+        android:title="@string/itemwechatnews"/>
+    <item android:id="@+id/item_my"
+        android:icon="@drawable/ic_my_selector"
+        android:title="@string/itemme"/>
+</menu>

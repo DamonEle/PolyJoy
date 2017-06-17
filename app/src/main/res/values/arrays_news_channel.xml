@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--静态的频道名称-->
+    <string-array name="news_channel_name_static">
+        <item>头条</item>
+        <item>社会</item>
+        <item>娱乐</item>
+        <item>科技</item>
+        <item>时尚</item>
+    </string-array>
+    <!--静态的频道id-->
+    <string-array name="news_channel_id_static">
+        <item>top</item>
+        <item>shehui</item>
+        <item>yule</item>
+        <item>keji</item>
+        <item>shishang</item>
+    </string-array>
+    <!--动态的频道数据-->
+    <string-array name="news_channel_name_no_static">
+        <item>国内</item>
+        <item>国际</item>
+        <item>体育</item>
+        <item>军事</item>
+        <item>财经</item>
+    </string-array>
+    <!--动态的频道id-->
+    <string-array name="news_channel_id_no_static">
+        <item>guonei</item>
+        <item>guoji</item>
+        <item>tiyu</item>
+        <item>junshi</item>
+        <item>caijing</item>
+    </string-array>
+
+</resources>

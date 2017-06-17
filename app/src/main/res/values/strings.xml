@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">聚娱</string>
+    <string name="app_title">聚娱 聚尽天下娱乐！</string>
+    <string name="itemtime">时势</string>
+    <string name="itemwechatnews">微精选</string>
+    <string name="itemme">我的</string>
+    <string name="onloadmore">正在读取，请稍后</string>
+    <string name="photogirl">妹子图</string>
+    <string name="wechatnews">微精选</string>
+    <string name="share">SHARE</string>
+    <string name="like">LIKE</string>
+</resources>

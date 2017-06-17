@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="white">#fff</color>
+    <color name="black">#000</color>
+    <color name="girlpicbgblack">#900f0f0f</color>
+    <color name="gray">#888888</color>
+    <color name="ahplablue">#702BD5D5</color>
+    <color name="gray2">#cccccc</color>
+    <color name="tabsgray">#dcd8d8</color>
+    <color name="primary">#9c27b0</color>
+    <color name="primaryDark">#7b1fa2</color>
+    <color name="accent">#ffab40</color>
+
+</resources>
