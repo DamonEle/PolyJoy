@@ -36,7 +36,7 @@ public class MyFragment extends BaseFragment<MyPresenter,MyModel> implements MyC
 
     @Override
     public void initView() {
-
+ssssssss
     }
 
     @Override
