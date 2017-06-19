@@ -40,8 +40,6 @@ public class MyFragment extends BaseFragment<MyPresenter, MyModel> implements My
     TextView tvTodayReadCount;
     @BindView(R.id.tv_all_read_count)
     TextView tvAllReadCount;
-    @BindView(R.id.tab_change_view)
-    TabLayout tabChangeView;
     @BindView(R.id.jr_my)
     JoysRecordView jrMy;
 
@@ -52,36 +50,12 @@ public class MyFragment extends BaseFragment<MyPresenter, MyModel> implements My
 
     @Override
     public void initView() {
-        tabChangeView.setTabMode(TabLayout.MODE_FIXED);
-        tabChangeView.addTab(tabChangeView.newTab().setText(mContext.getString(R.string.allsee)).
-                setTag(FLAG_ALL_SEE));
-        tabChangeView.addTab(tabChangeView.newTab().setText(mContext.getString(R.string.choosesee))
-                .setTag(FLAG_ONE_SEE));
 
         initListener();
     }
 
     private void initListener() {
-        tabChangeView.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                if ((int) tab.getTag() == FLAG_ALL_SEE) {
-                    mPresenter.showLocalRocordableBeans();
-                } else {
 
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
     }
 
     @Override

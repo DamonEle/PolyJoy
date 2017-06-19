@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.damon43.common.commonutils.DensityUtil;
 import com.damon43.polyjoy.R;
 
 import java.util.ArrayList;
@@ -90,7 +91,7 @@ public class JoysRecordView extends View {
         mRecfPaint.setStrokeWidth(RECF_WIDTH);
         mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mTextPaint.setColor(mContext.getResources().getColor(R.color.gray));
-        mTextPaint.setTextSize(TEXT_WIDTH);
+        mTextPaint.setTextSize(DensityUtil.sp2px(mContext,13f));
         DEFULT_TEXTWIDTH = mTextPaint.measureText("头条");
         Paint.FontMetrics foneMetrics = mTextPaint.getFontMetrics();
         TEXT_HEIGHT_OFFECT = foneMetrics.bottom - foneMetrics.top;//获取文本高度

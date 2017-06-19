@@ -22,4 +22,5 @@
     <dimen name="app_bar_size">170dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="item_img_height_big">190dp</dimen>
+    <dimen name="radius_my">5dp</dimen>
 </resources>

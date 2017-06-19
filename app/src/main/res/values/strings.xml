@@ -13,4 +13,7 @@
     <string name="allread">总浏览（次）</string>
     <string name="allsee">次数全览</string>
     <string name="choosesee">按类型</string>
+    <string name="byCount">按次数</string>
+    <string name="byTime">按时间</string>
+    <string name="byType">按类型</string>
 </resources>
