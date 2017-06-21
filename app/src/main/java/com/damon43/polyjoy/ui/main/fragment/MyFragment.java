@@ -1,11 +1,6 @@
 package com.damon43.polyjoy.ui.main.fragment;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.damon43.common.base.BaseFragment;
@@ -20,8 +15,6 @@ import com.damon43.polyjoy.widget.JoysRecordView;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * @author damonmasty
@@ -29,7 +22,7 @@ import butterknife.Unbinder;
  *         我的
  */
 
-public class MyFragment extends BaseFragment<MyPresenter, MyModel> implements MyContract.View {
+public class MyFragment extends BaseFragment<MyPresenter, MyModel> implements MyContract.View, View.OnClickListener {
     private static final int FLAG_ALL_SEE = 101;
     private static final int FLAG_ONE_SEE = 101;
     @BindView(R.id.tv_today_read)
@@ -42,6 +35,12 @@ public class MyFragment extends BaseFragment<MyPresenter, MyModel> implements My
     TextView tvAllReadCount;
     @BindView(R.id.jr_my)
     JoysRecordView jrMy;
+    @BindView(R.id.tv_by_count)
+    TextView tvByCount;
+    @BindView(R.id.tv_by_type)
+    TextView tvByType;
+    @BindView(R.id.tv_by_time)
+    TextView tvByTime;
 
     @Override
     public int getLayoutResource() {
@@ -50,12 +49,13 @@ public class MyFragment extends BaseFragment<MyPresenter, MyModel> implements My
 
     @Override
     public void initView() {
-
         initListener();
     }
 
     private void initListener() {
-
+        tvByCount.setOnClickListener(this);
+        tvByTime.setOnClickListener(this);
+        tvByType.setOnClickListener(this);
     }
 
     @Override
@@ -73,4 +73,24 @@ public class MyFragment extends BaseFragment<MyPresenter, MyModel> implements My
 
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv_by_count:
+                tvByCount.setSelected(true);
+                tvByType.setSelected(false);
+                tvByTime.setSelected(false);
+                break;
+            case R.id.tv_by_time:
+                tvByCount.setSelected(false);
+                tvByType.setSelected(false);
+                tvByTime.setSelected(true);
+                break;
+            case R.id.tv_by_type:
+                tvByCount.setSelected(false);
+                tvByType.setSelected(true);
+                tvByTime.setSelected(false);
+                break;
+        }
+    }
 }
