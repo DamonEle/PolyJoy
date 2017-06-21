@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.damon43.common.base.BaseFragment;
+import com.damon43.common.commonutils.ClassUtil;
 import com.damon43.polyjoy.R;
 import com.damon43.polyjoy.bean.NewsRecordBean;
 import com.damon43.polyjoy.bean.RecordableBean;
@@ -60,7 +61,7 @@ public class MyFragment extends BaseFragment<MyPresenter, MyModel> implements My
 
     @Override
     public void initPresenter() {
-
+        mPresenter.setVM((MyContract.Model) ClassUtil.getT(this,0),this);
     }
 
     @Override
