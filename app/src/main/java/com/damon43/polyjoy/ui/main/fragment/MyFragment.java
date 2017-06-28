@@ -51,6 +51,7 @@ public class MyFragment extends BaseFragment<MyPresenter, MyModel> implements My
     @Override
     public void initView() {
         initListener();
+        mPresenter.showLocalRocordableBeans();
     }
 
     private void initListener() {
@@ -61,12 +62,12 @@ public class MyFragment extends BaseFragment<MyPresenter, MyModel> implements My
 
     @Override
     public void initPresenter() {
-        mPresenter.setVM((MyContract.Model) ClassUtil.getT(this,0),this);
+        mPresenter.setVM((MyContract.Model) ClassUtil.getT(this,1),this);
     }
 
     @Override
     public void showLocalRocordableBeans(List<NewsRecordBean> beans) {
-
+        jrMy.showLocalRocordableBeans(beans);
     }
 
     @Override

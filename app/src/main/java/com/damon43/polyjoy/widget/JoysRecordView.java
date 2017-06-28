@@ -8,10 +8,18 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.damon43.common.commonutils.DensityUtil;
+import com.damon43.common.commonutils.LogUtils;
 import com.damon43.polyjoy.R;
+import com.damon43.polyjoy.bean.NewsRecordBean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
+
+import rx.Observable;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.functions.Func2;
 
 
 /**
@@ -20,6 +28,9 @@ import java.util.List;
  */
 /*希望除了上帝和我以外，不会有人阅读到以下这段代码...*/
 public class JoysRecordView extends View {
+
+
+    private List<NewsRecordBean> datas;
 
     private static final float LINE_WIDTH = 1.5F;
     private static final float LITTLE_LINE_WIDTH = 1F;
@@ -43,18 +54,18 @@ public class JoysRecordView extends View {
     /*柱状画笔*/
     private Paint mRecfPaint;
 
-    private int mWidth;
-    private int mDefaultWidth = 450;
-    private int mHeight;
-    private int mDefaultHeight = 300;
-    private int mCountLineCount = 8;
-    private int mKindsLineCount = 5;
+    private float mWidth;
+    private float mDefaultWidth = 450;
+    private float mHeight;
+    private float mDefaultHeight = 300;
+    private float mCountLineCount = 5;
+    private float mKindsLineCount = 5;
 
     private String[] strs = new String[]{"社会", "美女", "科学", "头条", "体育"};
     private String[] strs2 = new String[]{"11-3", "11-5", "11-6", "11-9", "11-20"};
-    private float textwidth;
     private float DEFULT_TEXTWIDTH;
     private boolean isAllSee = false;
+    private float mCountLineSize;
 
     public JoysRecordView(Context context) {
         this(context, null);
@@ -91,7 +102,7 @@ public class JoysRecordView extends View {
         mRecfPaint.setStrokeWidth(RECF_WIDTH);
         mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mTextPaint.setColor(mContext.getResources().getColor(R.color.gray));
-        mTextPaint.setTextSize(DensityUtil.sp2px(mContext,13f));
+        mTextPaint.setTextSize(DensityUtil.sp2px(mContext, 13f));
         DEFULT_TEXTWIDTH = mTextPaint.measureText("头条");
         Paint.FontMetrics foneMetrics = mTextPaint.getFontMetrics();
         TEXT_HEIGHT_OFFECT = foneMetrics.bottom - foneMetrics.top;//获取文本高度
@@ -116,7 +127,34 @@ public class JoysRecordView extends View {
             mHeight = measureHeight;
         }
 
-        setMeasuredDimension(mWidth, mHeight);
+        readyToDraw();
+
+        setMeasuredDimension((int) mWidth, (int) mHeight);
+    }
+
+
+    private void readyToDraw() {
+        //选出最大的y值
+        Observable.from(datas)
+                .toSortedList(new Func2<NewsRecordBean, NewsRecordBean, Integer>() {
+                    @Override
+                    public Integer call(NewsRecordBean newsRecordBean, NewsRecordBean newsRecordBean2) {
+                        LogUtils.logD(newsRecordBean.getCount() + "-" + newsRecordBean2.getCount() + "");
+                        return newsRecordBean.getCount() - newsRecordBean2.getCount(); //>0 升序 ，<0 降序
+                    }
+                })
+                .map(new Func1<List<NewsRecordBean>, Integer>() {
+                    @Override
+                    public Integer call(List<NewsRecordBean> newsRecordBeen) {
+                        return newsRecordBeen.get(newsRecordBeen.size() - 1).getCount();
+                    }
+                })
+                .subscribe(new Action1<Integer>() {
+                    @Override
+                    public void call(Integer integer) {
+                        mCountLineSize = integer / mCountLineCount;
+                    }
+                });
     }
 
     @Override
@@ -130,30 +168,32 @@ public class JoysRecordView extends View {
             float y = (i * lineHeight) + TEXT_HEIGHT_OFFECT / 2;
 
             canvas.drawLine(TEXT_WIDTH_OFFECT + TEXT_WIDTH_OFFECT / 3, y, mWidth, y, mGrayLinePaint2);
-            canvas.drawText((mCountLineCount - i) * 10 + "次", 0, y + TEXT_HEIGHT_OFFECT / 4, mTextPaint);
+            canvas.drawText((int) ((mCountLineCount - i) * mCountLineSize) + "次", 0, y + TEXT_HEIGHT_OFFECT / 4, mTextPaint);
         }
         //画种类纵坐标
-        int lineWidth = (int) (mWidth - TEXT_WIDTH_OFFECT) / (mKindsLineCount + 1);
+        int lineWidth = (int) (mWidth - TEXT_WIDTH_OFFECT) / (datas.size() + 1);
         List<Float> connectPoints = new ArrayList<>();
-        for (int i = 1; i <= mKindsLineCount; i++) {
+        for (int i = 1; i <= datas.size(); i++) {
             float x = (i * lineWidth) + TEXT_WIDTH_OFFECT;
-            String bottomXText = strs2[i - 1];
+            NewsRecordBean recordBean = datas.get(i - 1);
+            String bottomXText = recordBean.getType();
+            float count = TEXT_HEIGHT_OFFECT / 2 + yOffect - yOffect * (recordBean.getCount() / (mCountLineSize * mCountLineCount));
+            LogUtils.logD(count + "ssss");
             float bottomXTextWidth = mTextPaint.measureText(bottomXText);
             canvas.drawText(bottomXText, x - bottomXTextWidth / 2, bottomLineY + BOTTOM_TEXT_MARGIN
                     + TEXT_HEIGHT_OFFECT * 3 / 4, mTextPaint);
             if (isAllSee) {
                 //画柱状图
 //                canvas.drawLine(x, bottomLineY, x, yOffect * (i * 8 / (mCountLineCount * 10)), mRecfPaint);
-                canvas.drawLine(x, bottomLineY, x, yOffect / 2, mRecfPaint);
+                canvas.drawLine(x, bottomLineY, x, count, mRecfPaint);
             } else {
                 //画折线图的线
                 //在view宽高值的x，y上绘画会绘制到view界面之外的地方 导致效果不可见，因为view的相对xy坐标是从0开始
                 canvas.drawLine(x, TEXT_HEIGHT_OFFECT / 2, x, bottomLineY, mGrayLinePaint2);
                 //画点
-                float pointY = yOffect / 2 + i * 15;
-                canvas.drawCircle(x, pointY, POINT_RADIUS, mPointPaint);
+                canvas.drawCircle(x, count, POINT_RADIUS, mPointPaint);
                 connectPoints.add(x);
-                connectPoints.add(pointY);
+                connectPoints.add(count);
             }
         }
         //画折线
@@ -163,5 +203,10 @@ public class JoysRecordView extends View {
                         connectPoints.get(i + 3), mConnectPaint);
         }
         canvas.drawLine(TEXT_WIDTH_OFFECT + TEXT_WIDTH_OFFECT / 3, bottomLineY, mWidth, bottomLineY, mGrayLinePaint);
+    }
+
+    public void showLocalRocordableBeans(List<NewsRecordBean> beans) {
+        this.datas = beans;
+        invalidate();
     }
 }
