@@ -31,8 +31,22 @@ public class TimeUtils {
         return "1秒";
     }
 
+    /**
+     * 通过时间戳来获取 日
+     * @param str
+     * @return
+     */
     public static int getDaybyString(long str){
         Date date = new Date(str);
         return date.getDay();
+    }
+    /**
+     * 通过时间戳来获取 月-日 11-2
+     * @param str
+     * @return
+     */
+    public static String getDaybylong(long str){
+        Date date = new Date(str);
+        return (date.getMonth()+1)+"-"+date.getDay();
     }
 }

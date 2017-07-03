@@ -42,6 +42,9 @@ public class MyFragment extends BaseFragment<MyPresenter, MyModel> implements My
     TextView tvByType;
     @BindView(R.id.tv_by_time)
     TextView tvByTime;
+    public static final int STATE_ALL = 101;
+    public static final int STATE_TIME = 102;
+    private int currentState = STATE_ALL;
 
     @Override
     public int getLayoutResource() {
@@ -62,7 +65,7 @@ public class MyFragment extends BaseFragment<MyPresenter, MyModel> implements My
 
     @Override
     public void initPresenter() {
-        mPresenter.setVM((MyContract.Model) ClassUtil.getT(this,1),this);
+        mPresenter.setVM((MyContract.Model) ClassUtil.getT(this, 1), this);
     }
 
     @Override
@@ -72,21 +75,29 @@ public class MyFragment extends BaseFragment<MyPresenter, MyModel> implements My
 
     @Override
     public void loadLocalRocordableBeansByType(List<RecordableBean> beans) {
-
+        jrMy.showLocalRocordableBeanByType(beans);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_by_count:
-                tvByCount.setSelected(true);
-                tvByType.setSelected(false);
-                tvByTime.setSelected(false);
+                if (currentState != STATE_ALL) {
+                    currentState = STATE_ALL;
+                    tvByCount.setSelected(true);
+                    tvByType.setSelected(false);
+                    tvByTime.setSelected(false);
+                    mPresenter.showLocalRocordableBeans();
+                }
                 break;
             case R.id.tv_by_time:
-                tvByCount.setSelected(false);
-                tvByType.setSelected(false);
-                tvByTime.setSelected(true);
+                if (currentState != STATE_TIME) {
+                    currentState = STATE_TIME;
+                    tvByCount.setSelected(false);
+                    tvByType.setSelected(false);
+                    tvByTime.setSelected(true);
+                    mPresenter.loadLocalRocordableBeansByType("girl");
+                }
                 break;
             case R.id.tv_by_type:
                 tvByCount.setSelected(false);

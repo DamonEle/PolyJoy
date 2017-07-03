@@ -3,21 +3,27 @@ package com.damon43.polyjoy.widget;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.support.annotation.IntegerRes;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
 import com.damon43.common.commonutils.DensityUtil;
 import com.damon43.common.commonutils.LogUtils;
+import com.damon43.common.commonutils.TimeUtils;
 import com.damon43.polyjoy.R;
 import com.damon43.polyjoy.bean.NewsRecordBean;
+import com.damon43.polyjoy.bean.RecordableBean;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Logger;
 
 import rx.Observable;
+import rx.Subscriber;
 import rx.functions.Action1;
+import rx.functions.Action2;
+import rx.functions.Func0;
 import rx.functions.Func1;
 import rx.functions.Func2;
 
@@ -30,7 +36,8 @@ import rx.functions.Func2;
 public class JoysRecordView extends View {
 
 
-    private List<NewsRecordBean> datas;
+    private List<NewsRecordBean> allDatas;
+    private List<RecordableBean> typeDatas;
 
     private static final float LINE_WIDTH = 1.5F;
     private static final float LITTLE_LINE_WIDTH = 1F;
@@ -135,26 +142,65 @@ public class JoysRecordView extends View {
 
     private void readyToDraw() {
         //选出最大的y值
-        Observable.from(datas)
-                .toSortedList(new Func2<NewsRecordBean, NewsRecordBean, Integer>() {
-                    @Override
-                    public Integer call(NewsRecordBean newsRecordBean, NewsRecordBean newsRecordBean2) {
-                        LogUtils.logD(newsRecordBean.getCount() + "-" + newsRecordBean2.getCount() + "");
-                        return newsRecordBean.getCount() - newsRecordBean2.getCount(); //>0 升序 ，<0 降序
-                    }
-                })
-                .map(new Func1<List<NewsRecordBean>, Integer>() {
-                    @Override
-                    public Integer call(List<NewsRecordBean> newsRecordBeen) {
-                        return newsRecordBeen.get(newsRecordBeen.size() - 1).getCount();
-                    }
-                })
-                .subscribe(new Action1<Integer>() {
-                    @Override
-                    public void call(Integer integer) {
-                        mCountLineSize = integer / mCountLineCount;
-                    }
-                });
+        if (isAllSee) {
+            Observable.from(allDatas)
+                    .toSortedList(new Func2<NewsRecordBean, NewsRecordBean, Integer>() {
+                        @Override
+                        public Integer call(NewsRecordBean newsRecordBean, NewsRecordBean newsRecordBean2) {
+                            return newsRecordBean.getCount() - newsRecordBean2.getCount(); //>0 升序 ，<0 降序
+                        }
+                    })
+                    .map(new Func1<List<NewsRecordBean>, Integer>() {
+                        @Override
+                        public Integer call(List<NewsRecordBean> newsRecordBeen) {
+                            return newsRecordBeen.get(newsRecordBeen.size() - 1).getCount();
+                        }
+                    })
+                    .subscribe(new Action1<Integer>() {
+                        @Override
+                        public void call(Integer integer) {
+                            mCountLineSize = integer / mCountLineCount;
+                        }
+                    });
+        } else {
+            Observable.from(typeDatas)
+                    .toSortedList(new Func2<RecordableBean, RecordableBean, Integer>() {
+                        @Override
+                        public Integer call(RecordableBean recordableBean, RecordableBean recordableBean2) {
+                            return (int) (recordableBean.getRecoedDate() - recordableBean2.getRecoedDate());
+                        }
+                    })
+                    .flatMap(new Func1<List<RecordableBean>, Observable<RecordableBean>>() {
+                        @Override
+                        public Observable<RecordableBean> call(List<RecordableBean> recordableBeen) {
+                            return Observable.from(recordableBeen);
+                        }
+                    })
+                    .collect(new Func0<HashMap<String, Integer>>() {
+                        @Override
+                        public HashMap<String, Integer> call() {
+                            return new HashMap<>();
+                        }
+                    }, new Action2<HashMap<String, Integer>, RecordableBean>() {
+                        @Override
+                        public void call(HashMap<String, Integer> stringIntegerHashMap, RecordableBean recordableBean) {
+                            String day = TimeUtils.getDaybylong(recordableBean.getRecoedDate());
+                            int count = stringIntegerHashMap.get(day);
+                            if (count == 0) {
+                                stringIntegerHashMap.put(day, 1);
+                            } else {
+                                stringIntegerHashMap.put(day, ++count);
+                            }
+                        }
+                    })
+                    .subscribe(new Action1<HashMap<String, Integer>>() {
+                        @Override
+                        public void call(HashMap<String, Integer> stringIntegerHashMap) {
+
+                        }
+                    });
+
+        }
     }
 
     @Override
@@ -166,16 +212,15 @@ public class JoysRecordView extends View {
 
         for (int i = 0; i < mCountLineCount; i++) {
             float y = (i * lineHeight) + TEXT_HEIGHT_OFFECT / 2;
-
             canvas.drawLine(TEXT_WIDTH_OFFECT + TEXT_WIDTH_OFFECT / 3, y, mWidth, y, mGrayLinePaint2);
             canvas.drawText((int) ((mCountLineCount - i) * mCountLineSize) + "次", 0, y + TEXT_HEIGHT_OFFECT / 4, mTextPaint);
         }
         //画种类纵坐标
-        int lineWidth = (int) (mWidth - TEXT_WIDTH_OFFECT) / (datas.size() + 1);
+        int lineWidth = (int) (mWidth - TEXT_WIDTH_OFFECT) / (allDatas.size() + 1);
         List<Float> connectPoints = new ArrayList<>();
-        for (int i = 1; i <= datas.size(); i++) {
+        for (int i = 1; i <= allDatas.size(); i++) {
             float x = (i * lineWidth) + TEXT_WIDTH_OFFECT;
-            NewsRecordBean recordBean = datas.get(i - 1);
+            NewsRecordBean recordBean = allDatas.get(i - 1);
             String bottomXText = recordBean.getType();
             float count = TEXT_HEIGHT_OFFECT / 2 + yOffect - yOffect * (recordBean.getCount() / (mCountLineSize * mCountLineCount));
             LogUtils.logD(count + "ssss");
@@ -206,7 +251,14 @@ public class JoysRecordView extends View {
     }
 
     public void showLocalRocordableBeans(List<NewsRecordBean> beans) {
-        this.datas = beans;
+        this.allDatas = beans;
+        isAllSee = true;
+        invalidate();
+    }
+
+    public void showLocalRocordableBeanByType(List<RecordableBean> beans) {
+        isAllSee = false;
+        this.typeDatas = beans;
         invalidate();
     }
 }
