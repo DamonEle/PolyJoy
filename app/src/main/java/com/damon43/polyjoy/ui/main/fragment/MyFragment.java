@@ -16,6 +16,7 @@ import com.damon43.polyjoy.widget.JoysRecordView;
 import java.util.List;
 
 import butterknife.BindView;
+import rx.Observable;
 
 /**
  * @author damonmasty
@@ -24,8 +25,6 @@ import butterknife.BindView;
  */
 
 public class MyFragment extends BaseFragment<MyPresenter, MyModel> implements MyContract.View, View.OnClickListener {
-    private static final int FLAG_ALL_SEE = 101;
-    private static final int FLAG_ONE_SEE = 101;
     @BindView(R.id.tv_today_read)
     TextView tvTodayRead;
     @BindView(R.id.tv_all_read)
@@ -71,6 +70,12 @@ public class MyFragment extends BaseFragment<MyPresenter, MyModel> implements My
     @Override
     public void showLocalRocordableBeans(List<NewsRecordBean> beans) {
         jrMy.showLocalRocordableBeans(beans);
+        int all = 0 ;
+        for (int i = 0; i < beans.size(); i++) {
+            all += beans.get(i).getCount();
+
+        }
+        tvAllReadCount.setText(all+"");
     }
 
     @Override
