@@ -184,7 +184,7 @@ public class JoysRecordView extends View {
                     }, new Action2<HashMap<String, Integer>, RecordableBean>() {
                         @Override
                         public void call(HashMap<String, Integer> stringIntegerHashMap, RecordableBean recordableBean) {
-                            String day = TimeUtils.getDaybylong(recordableBean.getRecoedDate());
+                             String day = TimeUtils.getDaybylong(recordableBean.getRecoedDate());
                             int count = stringIntegerHashMap.get(day);
                             if (count == 0) {
                                 stringIntegerHashMap.put(day, 1);
